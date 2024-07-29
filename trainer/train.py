@@ -167,12 +167,11 @@ def train(opt, show_number = 2, amp=False):
     start_time = time.time()
     best_accuracy = -1
     best_norm_ED = -1
-    i = start_iter
 
     scaler = GradScaler()
     t1= time.time()
         
-    while(True):
+    for i in range(start_iter, opt.num_iter+1):
         # train part
         optimizer.zero_grad(set_to_none=True)
         
@@ -275,8 +274,4 @@ def train(opt, show_number = 2, amp=False):
         if (i + 1) % 1e+4 == 0:
             torch.save(
                 model.state_dict(), f'./saved_models/{opt.experiment_name}/iter_{i+1}.pth')
-
-        if i == opt.num_iter:
-            print('end the training')
-            sys.exit()
-        i += 1
+    print('end the training')
